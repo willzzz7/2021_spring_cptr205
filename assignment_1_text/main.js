@@ -40,3 +40,5 @@ document.addEventListener('keyup', function(event) {
         document.getElementById("submit").click();
     }
 }); 
+
+console.log('HELLO WORLD'); 
