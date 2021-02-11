@@ -10,9 +10,18 @@ socket.addEventListener('open', open => {
     document.querySelector('.chat-stream').innerText += 'WEBSOCKETS OPENED\n'
 }); 
 
+let is_finished = false; 
 socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
+    
+    if(is_finished) {
+        return;         
+    }
     document.querySelector('.chat-stream').innerText += message.Game + ' :: ' + message.Name.toUpperCase() + ' >> ' + message.Message + '\n';
+    if(message.Message === 'FIN') {
+        document.querySelector('.chat-stream').innerText += 'GAME OVER'; 
+        is_finished = true; 
+    }
 }); 
 
 const write_closed = () => {
@@ -40,3 +49,5 @@ document.addEventListener('keyup', function(event) {
         document.getElementById("submit").click();
     }
 }); 
+
+console.log('HELLO WORLD'); 
