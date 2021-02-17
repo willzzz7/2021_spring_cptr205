@@ -4,7 +4,9 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     const ws = new WebSocket('wss://southwestern.media/game_dev'); 
     ws.addEventListener('open', open => {
         console.log('WEBSOCKET CONNECTION OPENED'); 
-        
+        document.addEventListener('click', click => {
+            click.client
+        }); 
         const data = {}; 
         data.Game = 'evan_assignment_3'; 
         const our_name = data.Name = Math.random().toString(); 
