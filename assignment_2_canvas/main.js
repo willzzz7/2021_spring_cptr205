@@ -1,24 +1,27 @@
-console.log('Hello, world!'); 
+const game = document.querySelector('canvas').getContext('2d'); 
 
-let canvas = document.querySelector('canvas'); 
+// RESIZE HANDLER
+const resize_canvas = () => {
+    game.canvas.width = game.canvas.clientWidth; 
+    game.canvas.height = game.canvas.clientHeight; 
+}; 
+resize_canvas(); 
+window.addEventListener('resize', resize_canvas); 
 
-let context = canvas.getContext('2d'); 
-
-context.fillRect(50, 75, 10, 10); 
-
-context.fillStyle = 'green'; 
-context.fillRect(100, 75, 10, 10); 
-
-let click_count = 0; 
-document.addEventListener('click', click => {
-    if(++click_count > 5) {
-        context.fillStyle = 'blue'; 
-    }
-    context.fillRect(50, 25, 30, 30); 
-}); 
-
-document.addEventListener('keydown', keydown => {
-    if(keydown.key === 'c') {
-        context.clearRect(0, 0, canvas.width, canvas.height); 
+// RESPOND TO MOUSE MOVEMENT
+game.canvas.addEventListener('mousemove', mousemove => {
+    if(enemy_x <= mousemove.clientX && mousemove.clientX <= enemy_x + 10 && enemy_y <= mousemove.clientY && mousemove.clientY <= enemy_y + 10) {
+        enemy_x = game.canvas.width / 2; 
+        enemy_y = -100; 
     }
 }); 
+
+// ANIMATION
+let enemy_x = game.canvas.width / 2; 
+let enemy_y = -100; 
+const animate = () => {
+    game.clearRect(0, 0, game.canvas.width, game.canvas.height); 
+    game.fillRect(enemy_x, enemy_y++, 10, 10); 
+    window.requestAnimationFrame(animate); 
+}; 
+window.requestAnimationFrame(animate); 
