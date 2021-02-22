@@ -11,8 +11,13 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         game.canvas.width = game.canvas.clientWidth; 
         game.canvas.height = game.canvas.clientHeight; 
 
-        // game.canvas.width = game.canvas.clientWidth * window.devicePixelRatio; 
-        // game.canvas.height = game.canvas.clientHeight * window.devicePixelRatio; 
+        game.canvas.width = game.canvas.clientWidth * window.devicePixelRatio; 
+        game.canvas.height = game.canvas.clientHeight * window.devicePixelRatio; 
+        // blah blah blah
+        // blah blah blah
+        // blah blah blah
+        // blah blah blah
+        // blah blah blah
     }; 
     resize_canvas(); 
     window.addEventListener('resize', resize_canvas); 
