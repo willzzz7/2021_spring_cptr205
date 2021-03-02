@@ -1,41 +1,49 @@
 window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
 
-    // GLOBAL
-    const our_name = Math.random().toString(); 
-    const our_game = 'evan_assignment_3'; 
-    const game_events = {}; 
+    // MESSAGE TYPES
+    const messages = {}; 
+    messages.NEW_PLAYER = 'NEW_PLAYER'; 
+    messages.PLAYER_LEAVING = 'PLAYER_LEAVING'; 
+    
+    // GLOBAL VARIABLES
+    const game = {}; 
+    game.Game = 'evan_assignment_3'; 
+    game.Name = Math.random().toString(); 
+    let game_state = {}; 
+
+    // JUST FOR FUN: EACH PLAYER WILL BE A RANDOM COLOR
+    let our_fill = '#'; 
+    for(let i = 0; i < 3; i++) {
+        our_fill += Math.floor(Math.random() * 16).toString(16); 
+    }
 
     // 2D CANVAS SETUP
-    const game = document.querySelector('canvas').getContext('2d'); 
+    const render = document.querySelector('canvas').getContext('2d'); 
     const resize_canvas = () => {
-        game.canvas.width = game.canvas.clientWidth; 
-        game.canvas.height = game.canvas.clientHeight; 
-
-        game.canvas.width = game.canvas.clientWidth * window.devicePixelRatio; 
-        game.canvas.height = game.canvas.clientHeight * window.devicePixelRatio; 
-        // blah blah blah
-        // blah blah blah
-        // blah blah blah
-        // blah blah blah
-        // blah blah blah
+        render.canvas.width = render.canvas.clientWidth // * window.devicePixelRatio; 
+        render.canvas.height = render.canvas.clientHeight // * window.devicePixelRatio; 
     }; 
     resize_canvas(); 
     window.addEventListener('resize', resize_canvas); 
     
-    // WEBSOCKET STUFF
+    // SEND STATE THROUGH WEBSOCKET
+    const send_state = () => {
+        game.Message = JSON.stringify(game_state); 
+        ws.send(JSON.stringify(game)); 
+    }; 
+    
+    // WEBSOCKET 
     const ws = new WebSocket('wss://southwestern.media/game_dev'); 
     ws.addEventListener('open', open => {
         console.log('WEBSOCKET CONNECTION OPENED'); 
-        
-        game.canvas.addEventListener('mousemove', mousemove => {
-            const data = {}; 
-            data.Game = our_game; 
-            data.Name = our_name; 
-            const our_message = {}; 
-            our_message.x = mousemove.clientX; 
-            our_message.y = mousemove.clientY; 
-            data.Message = JSON.stringify(our_message); 
-            ws.send(JSON.stringify(data)); 
+        game.Message = messages.NEW_PLAYER; 
+        ws.send(JSON.stringify(game)); 
+        render.canvas.addEventListener('mousemove', mousemove => {
+            game_state[game.Name] = {}; 
+            game_state[game.Name].fill = our_fill; 
+            game_state[game.Name].x = mousemove.clientX; 
+            game_state[game.Name].y = mousemove.clientY; 
+            send_state(); 
         }); 
     }); 
     ws.addEventListener('close', close => {
@@ -45,47 +53,42 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         console.log('WEBSOCKETS ERROR'); 
     }); 
     ws.addEventListener('message', message => {
-        const message_data = JSON.parse(message.data); 
-        if(message_data.Game !== our_game) {
+        const incoming_message = JSON.parse(message.data); 
+        if(incoming_message.Game !== game.Game) {
             return; 
         }
-        message_data.Message = JSON.parse(message_data.Message); 
-        game_events[message_data.Name] = {x: message_data.Message.x, y: message_data.Message.y}; 
-
+        if(incoming_message.Message === messages.NEW_PLAYER) {
+            console.log('SAW A NEW PLAYER'); 
+            send_state(); 
+            return; 
+        }
+        game_state = JSON.parse(incoming_message.Message); 
+        console.log(game_state); 
     }); 
 
-    // RENDER LOOP
-    let r_y = 0; 
-    const render = () => {
-        game.clearRect(0, 0, game.canvas.width, game.canvas.height); 
-        game.fillStyle = '#00F'; 
-        game.fillRect(0, r_y, game.canvas.width / 2, game.canvas.height / 2); 
+    // BROADCAST WHEN WE LEAVE
+    window.addEventListener('beforeunload', beforeunload => {
+        delete game_state[game.Name]; 
+        send_state(); 
+        delete beforeunload['returnValue']; 
+    }); 
 
-        game.lineWidth = 20; 
-        game.strokeRect(game.canvas.width / 2, r_y, game.canvas.width / 2, game.canvas.height / 2); 
+    // ANIMATION LOOP
+    const animation = () => {
+        render.clearRect(0, 0, render.canvas.width, render.canvas.height); 
+        
+        render.fillStyle = '#00F'; 
+        render.fillRect(0, 0, render.canvas.width / 2, render.canvas.height / 2); 
+        render.fillRect(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 2, render.canvas.height / 2); 
 
-        game.save(); 
-        game.strokeStyle = '#0F0'; 
-        game.lineCap = 'round'; 
-        game.beginPath(); 
-        game.moveTo(3 * game.canvas.width / 4, game.canvas.height / 4); 
-        game.lineTo(3 * game.canvas.width / 4, game.canvas.height / 4); 
-        game.stroke(); 
-        game.restore(); 
-
-        game.lineCap = 'round'; 
-        game.beginPath(); 
-        game.moveTo(3 * game.canvas.width / 4, 3 * game.canvas.height / 4); 
-        game.lineTo(3 * game.canvas.width / 4, 3 * game.canvas.height / 4); 
-        game.stroke(); 
-
-        Object.keys(game_events).forEach(key => {
-            const player = game_events[key]; 
-            game.fillStyle = '#F00'; 
-            game.fillRect(player.x, player.y, 20, 20); 
+        Object.values(game_state).forEach(player => {
+            render.beginPath(); 
+            render.arc(player.x, player.y, render.canvas.width / 64, 0, 2 * Math.PI); 
+            render.fillStyle = player.fill; 
+            render.fill(); 
         }); 
         
-        window.requestAnimationFrame(render); 
+        window.requestAnimationFrame(animation); 
     }; 
-    window.requestAnimationFrame(render); 
+    window.requestAnimationFrame(animation); 
 }); 
