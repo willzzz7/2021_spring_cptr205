@@ -12,7 +12,10 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     let game_state = {}; 
 
     // JUST FOR FUN: EACH PLAYER WILL BE A RANDOM COLOR
-    let our_fill = 'red'; 
+    let our_fill = '#'; 
+    for(let i = 0; i < 3; i++) {
+        our_fill += Math.floor(Math.random() * 16).toString(16); 
+    }
 
     // 2D CANVAS SETUP
     const render = document.querySelector('canvas').getContext('2d'); 
@@ -36,9 +39,7 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         game.Message = messages.NEW_PLAYER; 
         ws.send(JSON.stringify(game)); 
         
-        const randX = Math.floor(Math.random() * Math.floor(render.canvas.width));
-        const randY = Math.floor(Math.random() * Math.floor(render.canvas.height));
-        render.arc(randX, randY, render.canvas.width / 64, 0, 2 * Math.PI);
+        
         
         render.canvas.addEventListener('mousemove', mousemove => {
             game_state[game.Name] = {}; 
@@ -82,6 +83,11 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         render.fillStyle = '#00F'; 
         render.fillRect(0, 0, render.canvas.width / 2, render.canvas.height / 2); 
         render.fillRect(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 2, render.canvas.height / 2); 
+        
+        const randX = Math.floor(Math.random() * Math.floor(render.canvas.width));
+        const randY = Math.floor(Math.random() * Math.floor(render.canvas.height));
+        render.fillStyle = '#FF0000'; 
+        render.arc(randX, randY, render.canvas.width / 64, 0, 2 * Math.PI);
 
         Object.values(game_state).forEach(player => {
             render.beginPath(); 
