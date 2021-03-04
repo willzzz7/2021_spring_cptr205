@@ -12,10 +12,7 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     let game_state = {}; 
 
     // JUST FOR FUN: EACH PLAYER WILL BE A RANDOM COLOR
-    let our_fill = '#'; 
-    for(let i = 0; i < 3; i++) {
-        our_fill += Math.floor(Math.random() * 16).toString(16); 
-    }
+    let our_fill = 'red'; 
 
     // 2D CANVAS SETUP
     const render = document.querySelector('canvas').getContext('2d'); 
