@@ -52,19 +52,19 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     ws.addEventListener('error', ws_error => {
         console.log('WEBSOCKETS ERROR'); 
     }); 
-    ws.addEventListener('message', message => {
-        const incoming_message = JSON.parse(message.data); 
-        if(incoming_message.Game !== game.Game) {
-            return; 
-        }
-        if(incoming_message.Message === messages.NEW_PLAYER) {
-            console.log('SAW A NEW PLAYER'); 
-            send_state(); 
-            return; 
-        }
-        game_state = JSON.parse(incoming_message.Message); 
-        console.log(game_state); 
-    }); 
+//     ws.addEventListener('message', message => {
+//         const incoming_message = JSON.parse(message.data); 
+//         if(incoming_message.Game !== game.Game) {
+//             return; 
+//         }
+//         if(incoming_message.Message === messages.NEW_PLAYER) {
+//             console.log('SAW A NEW PLAYER'); 
+//             send_state(); 
+//             return; 
+//         }
+//         game_state = JSON.parse(incoming_message.Message); 
+//         console.log(game_state); 
+//     }); 
 
     // BROADCAST WHEN WE LEAVE
     window.addEventListener('beforeunload', beforeunload => {
