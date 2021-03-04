@@ -35,6 +35,11 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         console.log('WILLIAM IS HERE'); //changes here
         game.Message = messages.NEW_PLAYER; 
         ws.send(JSON.stringify(game)); 
+        
+        const randX = Math.floor(Math.random() * Math.floor(render.canvas.width));
+        const randY = Math.floor(Math.random() * Math.floor(render.canvas.height));
+        render.arc(randX, randY, render.canvas.width / 64, 0, 2 * Math.PI);
+        
         render.canvas.addEventListener('mousemove', mousemove => {
             game_state[game.Name] = {}; 
             game_state[game.Name].fill = our_fill; 
