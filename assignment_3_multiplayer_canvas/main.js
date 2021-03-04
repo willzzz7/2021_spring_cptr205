@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     // WEBSOCKET 
     const ws = new WebSocket('wss://southwestern.media/game_dev'); 
     ws.addEventListener('open', open => {
-        console.log('WILLIAM IS HERE'); 
+        console.log('WILLIAM IS HERE'); //changes here
         game.Message = messages.NEW_PLAYER; 
         ws.send(JSON.stringify(game)); 
         render.canvas.addEventListener('mousemove', mousemove => {
@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
 
         Object.values(game_state).forEach(player => {
             render.beginPath(); 
-            render.fillRect(player.x, player.y, render.canvas.width / 64, render.canvas.height / 64)
+            render.fillRect(player.x, player.y, render.canvas.width / 64, render.canvas.height / 64) //changes to square instead of circle
             //render.arc(player.x, player.y, render.canvas.width / 64, 0, 2 * Math.PI); 
             render.fillStyle = player.fill; 
             render.fill(); 
