@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     // WEBSOCKET 
     const ws = new WebSocket('wss://southwestern.media/game_dev'); 
     ws.addEventListener('open', open => {
-        console.log('WEBSOCKET CONNECTION OPENED'); 
+        console.log('WILLIAM IS HERE'); 
         game.Message = messages.NEW_PLAYER; 
         ws.send(JSON.stringify(game)); 
         render.canvas.addEventListener('mousemove', mousemove => {
