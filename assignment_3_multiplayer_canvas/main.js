@@ -83,7 +83,8 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
 
         Object.values(game_state).forEach(player => {
             render.beginPath(); 
-            render.arc(player.x, player.y, render.canvas.width / 64, 0, 2 * Math.PI); 
+            render.fillRect(player.x, player.y, render.canvas.width / 64, render.canvas.height / 64)
+            //render.arc(player.x, player.y, render.canvas.width / 64, 0, 2 * Math.PI); 
             render.fillStyle = player.fill; 
             render.fill(); 
         }); 
