@@ -48,6 +48,12 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
             game_state[game.Name].y = mousemove.clientY; 
             send_state(); 
         }); 
+        
+        render.canvas.addEventListener('click', click => {
+            alert("Hello World!");
+            send_state(); 
+        });
+    }); 
     }); 
     ws.addEventListener('close', close => {
         console.log('WEBSOCKETS CLOSED'); 
