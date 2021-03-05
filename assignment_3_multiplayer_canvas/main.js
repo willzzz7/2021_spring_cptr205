@@ -77,6 +77,8 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
     }); 
 
     // ANIMATION LOOP
+    let randX = Math.floor(Math.random() * Math.floor(render.canvas.width));
+    let randY = Math.floor(Math.random() * Math.floor(render.canvas.height));
     const animation = () => {
         render.clearRect(0, 0, render.canvas.width, render.canvas.height); 
         
@@ -84,11 +86,9 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         render.fillRect(0, 0, render.canvas.width / 2, render.canvas.height / 2); 
         render.fillRect(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 2, render.canvas.height / 2); 
         
-        const randX = Math.floor(Math.random() * Math.floor(render.canvas.width));
-        const randY = Math.floor(Math.random() * Math.floor(render.canvas.height));
         render.fillStyle = '#FF0000'; 
         //render.arc(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 10, 0, 2 * Math.PI);
-        render.fillRect(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 64, render.canvas.height / 64)
+        render.fillRect(randX, randY, render.canvas.width / 64, render.canvas.height / 64)
 
         Object.values(game_state).forEach(player => {
             render.beginPath(); 
