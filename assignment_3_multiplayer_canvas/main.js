@@ -54,7 +54,6 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
             send_state(); 
         });
     }); 
-    }); 
     ws.addEventListener('close', close => {
         console.log('WEBSOCKETS CLOSED'); 
     }); 
