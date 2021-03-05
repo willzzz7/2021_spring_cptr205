@@ -54,9 +54,9 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
             game_state[game.Name].x = click.clientX; 
             game_state[game.Name].y = click.clientY; 
             if (game_state[game.Name].x >= randX &&
-                game_state[game.Name].x <= randX + render.canvas.width &&
+                game_state[game.Name].x <= randX + render.canvas.width / 64 &&
                 game_state[game.Name].y >= randY &&
-                game_state[game.Name].y <= randY + render.canvas.height){
+                game_state[game.Name].y <= randY + render.canvas.height / 64){
                 alert("true");
             }
             else{
