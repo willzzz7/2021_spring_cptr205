@@ -53,7 +53,16 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
             game_state[game.Name] = {}; 
             game_state[game.Name].x = click.clientX; 
             game_state[game.Name].y = click.clientY; 
-            alert(game_state[game.Name].x + " + " + game_state[game.Name].y)
+            if (game_state[game.Name].x >= randX &&
+                game_state[game.Name].x <= randX + render.canvas.width &&
+                game_state[game.Name].y >= randY &&
+                game_state[game.Name].y <= randY + render.canvas.height){
+                alert("true");
+            }
+            else{
+                alert("False");
+            }
+                
             send_state(); 
         });
     }); 
