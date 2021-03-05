@@ -50,7 +50,10 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         }); 
         
         render.canvas.addEventListener('click', click => {
-            alert("Hello World!");
+            game_state[game.Name] = {}; 
+            game_state[game.Name].x = click.clientX; 
+            game_state[game.Name].y = click.clientY; 
+            alert(game_state[game.Name].x + " + " + game_state[game.Name].y)
             send_state(); 
         });
     }); 
