@@ -48,11 +48,13 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
             game_state[game.Name].y = mousemove.clientY; 
             send_state(); 
         }); 
-        
+        //WHAT HAPPENS WHEN CLICK IS DONE IN AND OUTSIDE RANDOM GENERATED BOX
         render.canvas.addEventListener('click', click => {
             game_state[game.Name] = {}; 
             game_state[game.Name].x = click.clientX; 
-            game_state[game.Name].y = click.clientY; 
+            game_state[game.Name].y = click.clientY;
+ 
+            //check if click is in the random box
             if (game_state[game.Name].x >= randX &&
                 game_state[game.Name].x <= randX + render.canvas.width / 64 &&
                 game_state[game.Name].y >= randY &&
@@ -103,8 +105,8 @@ window.addEventListener('DOMContentLoaded', DOMContentLoaded => {
         render.fillRect(0, 0, render.canvas.width / 2, render.canvas.height / 2); 
         render.fillRect(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 2, render.canvas.height / 2); 
         
-        render.fillStyle = '#FF0000'; 
-        //render.arc(render.canvas.width / 2, render.canvas.height / 2, render.canvas.width / 10, 0, 2 * Math.PI);
+        //CREATE RANDOM-PLACED BOX WHEN STARTING THE GAME
+        render.fillStyle = '#FF0000';
         render.fillRect(randX, randY, render.canvas.width / 64, render.canvas.height / 64)
 
         Object.values(game_state).forEach(player => {
